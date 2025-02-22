@@ -33,7 +33,7 @@ The best way is running the application in python virtual environment.
 # How to use
 After you have a virtual environment and install requirement packages, you can test the application by running this command line:
 
-    python3 main.py --oddsmath_link <oddsmath links>
+    python3 main.py --oddsmath_link <oddsmath link>
 
 **Example:**
 
@@ -104,6 +104,7 @@ Let assume we have some conditions on how many data the database needs to store,
 - Require less efforts as much as it can for DevOps
 
 With a help from chatGPT, I get some suggestions to consider. Look like VictoriaMetrics is a good option for this case.
+
 ![Screenshot 2025-02-21 at 10 42 12 PM](https://github.com/user-attachments/assets/c9ad7fe3-fe85-4fc6-becd-bab11a015737)
 
 # To-do
