@@ -7,7 +7,7 @@ User can send
 - a match link, such as https://www.oddsmath.com/football/international/africa-caf-nations-cup-women-44344/2025-02-21/kenya-women-vs-tunisia-women-4715230/, to get the match bet data.
 
 # System design
-
+<img width="532" alt="Screenshot 2025-02-21 at 10 36 43 PM" src="https://github.com/user-attachments/assets/6eea9a8d-7c25-4af2-9f49-3e3fb582a0b8" />
 
 # Requirements
 The application is test with Python3.
