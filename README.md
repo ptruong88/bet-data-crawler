@@ -94,6 +94,7 @@ Database's requirements:
 - Low-cost
 - Self-hosted
 - Require less efforts as much as it can for DevOps
+![Screenshot 2025-02-21 at 10 42 12 PM](https://github.com/user-attachments/assets/c9ad7fe3-fe85-4fc6-becd-bab11a015737)
 
 # To-do
 - Set up a docker image for the application (I have tested [selenium-docker](https://github.com/ptruong88/docker-selenium/blob/trunk/docker-compose-v2.yml), but I can't have my application docker to hit the selenium hub's IP adress).
