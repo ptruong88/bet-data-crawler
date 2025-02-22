@@ -10,32 +10,37 @@ User can send
 <img width="532" alt="Screenshot 2025-02-21 at 10 36 43 PM" src="https://github.com/user-attachments/assets/6eea9a8d-7c25-4af2-9f49-3e3fb582a0b8" />
 
 # Requirements
-The application is test with Python3.
-
-The application requires:
-- selenium 4.29.0
-
-# Setup
-The best way is running the application in python virtual environment.
-
-- Create a virtual environment:
-
-        python3 -m venv myenv
-
-- Run the virtual environment:
-
-        source myenv/bin/activate
-
-- Installs requirement packages:
-
-        pip install -r requirements.txt
+- [Docker](https://docs.docker.com/get-started/introduction/get-docker-desktop/)
 
 # How to use
-After you have a virtual environment and install requirement packages, you can test the application by running this command line:
+The application uses docker compose to run its container, [selenium hub](https://github.com/SeleniumHQ/docker-selenium), and selenium chrome node. Its setup supports to deploy on a server.
 
-    python3 main.py --oddsmath_link <oddsmath link>
+There is the `.env` file which contains `ODDSMATH_LINKS` key for oddsmatch links, and it separates by comma. You will need to update its value before you run the docker-compose.yml file.
 
-**Example:**
+**Instructions:**
+1. Clone the repo
+
+        git clone git@github.com:ptruong88/bet-data-crawler.git
+
+2. Go to the repo directory
+
+        cd bet-data-crawler
+
+3. Open `.env` file and update values for `ODDSMATH_LINKS` key
+4. Run `docker-compose.yml`
+
+        docker-compose up
+
+5. Enjoy the output
+6. Press `Ctrol + C` to exit
+
+For a different oddsmath link, repeat from `step 3`
+
+7. If you don't want to use it anymore, you stop its containers.
+
+        docker-compose down
+
+**Output Example:**
 
 - With a oddsmath's match link, such as https://www.oddsmath.com/football/international/afc-championship-u20-103495/2025-02-22/saudi-arabia-u20-vs-china-u20-4715157/, the output shows the match' bet data.
 
@@ -108,6 +113,6 @@ With a help from chatGPT, I get some suggestions to consider. Look like Victoria
 ![Screenshot 2025-02-21 at 10 42 12 PM](https://github.com/user-attachments/assets/c9ad7fe3-fe85-4fc6-becd-bab11a015737)
 
 # To-do
-- Set up a docker image for the application (I have tested [selenium-docker](https://github.com/ptruong88/docker-selenium/blob/trunk/docker-compose-v2.yml), but I can't have my application docker to hit the selenium hub's IP adress).
-- Flow chart.
+- Allow the application to read new inputs without restarting the containers.
 - Store a date's matches' bet data as a csv.
+- Flow chart.
