@@ -86,7 +86,7 @@ Let assume we have some conditions on how many data the database needs to store,
 
             Total = 460,800 + 192,000 = 652,800 records
 
-Database's requirements:
+**Database's requirements:**
 - Number of records being ingested per second: 4,800 records (800 updates * 6)
 - Number of records being ingested per day: 652,800 records
 - Support time-series data
@@ -94,6 +94,8 @@ Database's requirements:
 - Low-cost
 - Self-hosted
 - Require less efforts as much as it can for DevOps
+
+With a help from chatGPT, I get some suggestions to consider. Look like VictoriaMetrics is a good option for this case.
 ![Screenshot 2025-02-21 at 10 42 12 PM](https://github.com/user-attachments/assets/c9ad7fe3-fe85-4fc6-becd-bab11a015737)
 
 # To-do
