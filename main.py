@@ -19,9 +19,8 @@ def main():
     # Fetch event links (most pages have this)
     event_date_links = oddsmath_crawler_service.get_date_event_links(oddsmath_link)
     print(f'EVENT_LINKS\n{event_date_links}')
-    print(f'Test multithread with 2 event links, {event_date_links[0:2]}')
     with ThreadPoolExecutor(max_workers=5) as executor:
-       executor.map(process_date_link, event_date_links[0:2])
+       executor.map(process_date_link, event_date_links)
 
     if is_date_link(oddsmath_link):
         process_date_link(oddsmath_link)
@@ -34,13 +33,11 @@ def process_date_link(oddsmath_link):
     print(f'Processing date link -> {oddsmath_link}')
     match_links = oddsmath_crawler_service.get_match_links_for_a_date(oddsmath_link)
     print(f'\nMATCH_LINKS\n{match_links}')
-    print(f'Test multithread with 5 match links for date match.')
-    test_match_links = match_links[0:5]
     with ThreadPoolExecutor(max_workers=5) as executor:
-        bet_data_results = list(executor.map(oddsmath_crawler_service.get_bet_data_for_a_match, test_match_links))
+        bet_data_results = list(executor.map(oddsmath_crawler_service.get_bet_data_for_a_match, match_links))
 
     print("\nBET DATA (per match):")
-    for match, bet_data in zip(test_match_links, bet_data_results):
+    for match, bet_data in zip(match_links, bet_data_results):
         print(f"{match} -> {bet_data}")
 
 def is_oddsmath_link(oddsmath_link: str):

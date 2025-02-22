@@ -101,6 +101,5 @@ With a help from chatGPT, I get some suggestions to consider. Look like Victoria
 # To-do
 - Set up a docker image for the application (I have tested [selenium-docker](https://github.com/ptruong88/docker-selenium/blob/trunk/docker-compose-v2.yml), but I can't have my application docker to hit the selenium hub's IP adress).
 - Construct and fetch data for a match API.
-- Thread
-- System design
-- Flow chart
+- Flow chart.
+- Store a date's matches' bet data as a csv.
