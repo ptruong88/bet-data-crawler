@@ -19,43 +19,51 @@ The application requires:
 The best way is running the application in python virtual environment.
 
 - Create a virtual environment:
-`python3 -m venv myenv`
+
+        python3 -m venv myenv
+
 - Run the virtual environment:
-`source myenv/bin/activate`
+
+        source myenv/bin/activate
+
 - Installs requirement packages:
-`pip install -r requirements.txt`
+
+        pip install -r requirements.txt
 
 # How to use
 After you have a virtual environment and install requirement packages, you can test the application by running this command line:
 
-`python3 main.py --oddsmath_link <oddsmath links>`
+    python3 main.py --oddsmath_link <oddsmath links>
 
 **Example:**
 
-- With the oddsmath's homepage's link https://www.oddsmath.com/
+- With a oddsmath's match link, such as https://www.oddsmath.com/football/international/afc-championship-u20-103495/2025-02-22/saudi-arabia-u20-vs-china-u20-4715157/, the output shows the match' bet data.
 
-        python3 main.py --oddsmath_link https://www.oddsmath.com/
+        python3 main.py --oddsmath_link https://www.oddsmath.com/football/international/afc-championship-u20-103495/2025-02-22/saudi-arabia-u20-vs-china-u20-4715157/
 
-        event_links
-        ['https://www.oddsmath.com/football/matches/2025-02-21/', 'https://www.oddsmath.com/football/matches/today/', 'https://www.oddsmath.com/football/matches/2025-02-23/',
-        ...]
+        BET_DATA
+        {'team_t1': 'SAUDI ARABIA U20', 'team_t2': 'CHINA U20', 'event_time': 'Saturday, Feb 22, 2025, 08:15', 'bets': [{'name': '1XBET', 'odds_1': '3.27', 'odds_X': '3.25', 'odds_2': '2.06'}, {'name': 'Bettogoal', 'odds_1': '3.17', 'odds_X': '3.37', 'odds_2': '2.05'}, {'name': 'Betway', 'odds_1': '3.10', 'odds_X': '3.30', 'odds_2': '2.10'}, {'name': 'FEZbet', 'odds_1': '3.40', 'odds_X': '3.25', 'odds_2': '2.05'}, ...]}
 
-- With a oddsmath's date link, such as https://www.oddsmath.com/football/matches/today/, the output shows everything the homepage link shows and includes all the matches' links for that date.
+- With a oddsmath's date link, such as https://www.oddsmath.com/football/matches/today/, the output shows all the matches' links for that date, and the bet data for each match.
 
         python3 main.py --oddsmath_link https://www.oddsmath.com/football/matches/today/
-
-        EVENT_LINKS
-        ['https://www.oddsmath.com/football/matches/2025-02-21/', 'https://www.oddsmath.com/football/matches/today/', 'https://www.oddsmath.com/football/matches/2025-02-23/', 'https://www.oddsmath.com/football/matches/2025-02-24/', ...]
         
         MATCH_LINKS
         ['https://www.oddsmath.com/football/international/afc-championship-u20-103495/2025-02-22/saudi-arabia-u20-vs-china-u20-4715157/', ...]
 
+        BET_DATA
+        {'team_t1': 'SAUDI ARABIA U20', 'team_t2': 'CHINA U20', 'event_time': 'Saturday, Feb 22, 2025, 08:15', 'bets': [{'name': '1XBET', 'odds_1': '3.27', 'odds_X': '3.25', 'odds_2': '2.06'}, {'name': 'Bettogoal', 'odds_1': '3.17', 'odds_X': '3.37', 'odds_2': '2.05'}, {'name': 'Betway', 'odds_1': '3.10', 'odds_X': '3.30', 'odds_2': '2.10'}, {'name': 'FEZbet', 'odds_1': '3.40', 'odds_X': '3.25', 'odds_2': '2.05'}, ...]}
 
-- With a oddsmath's match link, such as https://www.oddsmath.com/football/international/afc-championship-u20-103495/2025-02-22/saudi-arabia-u20-vs-china-u20-4715157/, the output shows everything the homepage link shows and includes the match' bet data.
-        python3 main.py --oddsmath_link https://www.oddsmath.com/football/international/afc-championship-u20-103495/2025-02-22/saudi-arabia-u20-vs-china-u20-4715157/
+- With the oddsmath's homepage's link https://www.oddsmath.com/, the output shows all event links, matches for each link, and bet data for each match.
+
+        python3 main.py --oddsmath_link https://www.oddsmath.com/
 
         EVENT_LINKS
-        ['https://www.oddsmath.com/football/matches/2025-02-21/', 'https://www.oddsmath.com/football/matches/today/', 'https://www.oddsmath.com/football/matches/2025-02-23/', ...]
+        ['https://www.oddsmath.com/football/matches/2025-02-21/', 'https://www.oddsmath.com/football/matches/today/', 'https://www.oddsmath.com/football/matches/2025-02-23/',
+        ...]
+
+        MATCH_LINKS
+        ['https://www.oddsmath.com/football/international/afc-championship-u20-103495/2025-02-22/saudi-arabia-u20-vs-china-u20-4715157/', ...]
 
         BET_DATA
         {'team_t1': 'SAUDI ARABIA U20', 'team_t2': 'CHINA U20', 'event_time': 'Saturday, Feb 22, 2025, 08:15', 'bets': [{'name': '1XBET', 'odds_1': '3.27', 'odds_X': '3.25', 'odds_2': '2.06'}, {'name': 'Bettogoal', 'odds_1': '3.17', 'odds_X': '3.37', 'odds_2': '2.05'}, {'name': 'Betway', 'odds_1': '3.10', 'odds_X': '3.30', 'odds_2': '2.10'}, {'name': 'FEZbet', 'odds_1': '3.40', 'odds_X': '3.25', 'odds_2': '2.05'}, ...]}
@@ -100,7 +108,5 @@ With a help from chatGPT, I get some suggestions to consider. Look like Victoria
 
 # To-do
 - Set up a docker image for the application (I have tested [selenium-docker](https://github.com/ptruong88/docker-selenium/blob/trunk/docker-compose-v2.yml), but I can't have my application docker to hit the selenium hub's IP adress).
-- Construct and fetch data for a match API.
-- Thread
-- System design
-- Flow chart
+- Flow chart.
+- Store a date's matches' bet data as a csv.
