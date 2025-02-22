@@ -6,8 +6,11 @@ User can send
 - a date link, such as https://www.oddsmath.com/football/matches/2025-02-21/, to get the date's match links.
 - a match link, such as https://www.oddsmath.com/football/international/africa-caf-nations-cup-women-44344/2025-02-21/kenya-women-vs-tunisia-women-4715230/, to get the match bet data.
 
+# System design
+
+
 # Requirements
-The application is implemented by Python3.
+The application is test with Python3.
 
 The application requires:
 - selenium 4.29.0
@@ -62,7 +65,7 @@ Bet data is updating frequently for a match, and whenever the new data is showed
 
 For the oddsmath, it supports to get future matches' bet data for today and tomorrow, and one day can have over 800 matches. When a match starts, the system needs to fetch bet data frequently for 90-120 minutes. 
 
-Let assume we have some conditions on how many update data the database needs to store, and those matches start at the end of a date:
+Let assume we have some conditions on how many data the database needs to store, and those matches start at the end of a date:
 - in 90 minutes, 800 matches keep update bet data every 1 minute.
 
         1 update/min * 90 min/match * 800 matches = 72,000 updates
@@ -73,17 +76,19 @@ Let assume we have some conditions on how many update data the database needs to
 
 - For the other times, 800 matches keep update bet data every 15 minute.
 
-        1 update/15min * 
+        1 update/ 15 min * 60 min/hr * 10 hrs * 800 matches = 32,000 updates
 
-24 hours * 60 min/h = 1440 min
-90 min ()
+- Assume each match has an average of bet houses is 6, so we have the amount of data to store is
 
-Assumption for data amount:
-1 update/min * 90 min * 1 match * 800 matches + 1 update/min * 30 min * 1 match * (0.2 * 800 matches) + 1 update/15 min * 10h * 1 match * 800 matches
+            For match times, (72,000 updates + 4,800 updates) * 6 = 460,800 records.
 
-Let assume half of them start at the same time, so we have 400 matches with low update time, and 40 matches with high update time for 1 day.
+            For non-match times, 32,000 updates * 6 = 192,000 records.
+
+            Total = 460,800 + 192,000 = 652,800 records
 
 Database's requirements:
+- Number of records being ingested per second: 4,800 records (800 updates * 6)
+- Number of records being ingested per day: 652,800 records
 - Support time-series data
 - Support append-only operation
 - Low-cost
@@ -91,3 +96,8 @@ Database's requirements:
 - Require less efforts as much as it can for DevOps
 
 # To-do
+- Set up a docker image for the application (I have tested [selenium-docker](https://github.com/ptruong88/docker-selenium/blob/trunk/docker-compose-v2.yml), but I can't have my application docker to hit the selenium hub's IP adress).
+- Construct and fetch data for a match API.
+- Thread
+- System design
+- Flow chart
