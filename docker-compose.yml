@@ -1,0 +1,39 @@
+# To execute this docker compose yml file use `docker compose -f docker-compose.yml up`
+# Add the `-d` flag at the end for detached execution
+# To stop the execution, hit Ctrl+C, and then `docker compose -f docker-compose.yml down`
+# The crawler service depends on selenium hub, so its setup waits until the selenium hub is ready to use.
+# Also, the selenium starts to check its status after 1 seconds and checks every 10 minutes.
+version: '2'
+services:
+  crawler_service:
+    build: .
+    depends_on:
+      selenium-hub:
+        condition: service_healthy
+    env_file:
+      - .env
+
+  chrome:
+    image: selenium/node-chrome:4.28.1-20250202
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=5
+
+  selenium-hub:
+    image: selenium/hub:4.28.1-20250202
+    container_name: selenium-hub
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4444/status"]
+      interval: 600s
+      timeout: 5s
+      retries: 3
+      start_period: 1s

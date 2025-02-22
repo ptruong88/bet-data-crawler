@@ -4,6 +4,7 @@ from oddsmath_selenium.match_page_json import MatchPageJSon
 from oddsmath_selenium.match_page import MatchPage
 from oddsmath_selenium.date_page import DatePage
 from oddsmath_selenium.home_page import HomePage
+from services.config_service import get_selenium_url
 
 T = TypeVar("T")  # Generic return type for functions that use WebDriver
 
@@ -11,7 +12,7 @@ def with_driver(func: Callable[[webdriver.Chrome], T]) -> T:
     """Handles WebDriver setup, execution, and teardown."""
     options = webdriver.ChromeOptions()
     options.add_argument("--headless=new")  # Run in headless mode
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.Remote(command_executor=get_selenium_url(), options=options)
     try:
         return func(driver)
     finally:
