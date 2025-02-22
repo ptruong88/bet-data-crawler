@@ -1,5 +1,6 @@
-from typing import List, Callable, TypeVar
 from selenium import webdriver
+from typing import List, Callable, TypeVar
+from oddsmath_selenium.match_page_json import MatchPageJSon
 from oddsmath_selenium.match_page import MatchPage
 from oddsmath_selenium.date_page import DatePage
 from oddsmath_selenium.home_page import HomePage
@@ -62,3 +63,10 @@ def get_bet_data_for_a_match(match_link: str):
     
     return with_driver(fetch_bet_data)
 
+def get_match_info(match_api: str):
+    def fetch_match_data(driver: webdriver.Chrome):
+        driver.get(match_api)
+        matchPageJson = MatchPageJSon(driver)
+        return matchPageJson.get_match_data()
+    
+    return with_driver(fetch_match_data)

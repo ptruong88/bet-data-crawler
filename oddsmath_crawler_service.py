@@ -13,3 +13,7 @@ def get_bet_data_for_a_date(date_link: str) -> List:
 def get_bet_data_for_a_match(match_link: str):
     return oddsmath_selenium_service.get_bet_data_for_a_match(match_link)
 
+def get_match_data_from_match_api(match_api: str):
+    return oddsmath_selenium_service.get_match_info(match_api)
+
+
