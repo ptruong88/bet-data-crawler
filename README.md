@@ -1,2 +1,93 @@
 # bet-data-crawler
 This program looks through the contents of the website https://www.oddsmath.com/ on a specific day, extract and store matches' bet data 
+
+User can send
+- any oddsmath link, such as https://www.oddsmath.com/, to get date event links.
+- a date link, such as https://www.oddsmath.com/football/matches/2025-02-21/, to get the date's match links.
+- a match link, such as https://www.oddsmath.com/football/international/africa-caf-nations-cup-women-44344/2025-02-21/kenya-women-vs-tunisia-women-4715230/, to get the match bet data.
+
+# Requirements
+The application is implemented by Python3.
+
+The application requires:
+- selenium 4.29.0
+
+# Setup
+The best way is running the application in python virtual environment.
+
+- Create a virtual environment:
+`python3 -m venv myenv`
+- Run the virtual environment:
+`source myenv/bin/activate`
+- Installs requirement packages:
+`pip install -r requirements.txt`
+
+# How to use
+After you have a virtual environment and install requirement packages, you can test the application by running this command line:
+
+`python3 main.py --oddsmath_link <oddsmath links>`
+
+**Example:**
+
+- With the oddsmath's homepage's link https://www.oddsmath.com/
+
+        python3 main.py --oddsmath_link https://www.oddsmath.com/
+
+        event_links
+        ['https://www.oddsmath.com/football/matches/2025-02-21/', 'https://www.oddsmath.com/football/matches/today/', 'https://www.oddsmath.com/football/matches/2025-02-23/',
+        ...]
+
+- With a oddsmath's date link, such as https://www.oddsmath.com/football/matches/today/, the output shows everything the homepage link shows and includes all the matches' links for that date.
+
+        python3 main.py --oddsmath_link https://www.oddsmath.com/football/matches/today/
+
+        EVENT_LINKS
+        ['https://www.oddsmath.com/football/matches/2025-02-21/', 'https://www.oddsmath.com/football/matches/today/', 'https://www.oddsmath.com/football/matches/2025-02-23/', 'https://www.oddsmath.com/football/matches/2025-02-24/', ...]
+        
+        MATCH_LINKS
+        ['https://www.oddsmath.com/football/international/afc-championship-u20-103495/2025-02-22/saudi-arabia-u20-vs-china-u20-4715157/', ...]
+
+
+- With a oddsmath's match link, such as https://www.oddsmath.com/football/international/afc-championship-u20-103495/2025-02-22/saudi-arabia-u20-vs-china-u20-4715157/, the output shows everything the homepage link shows and includes the match' bet data.
+        python3 main.py --oddsmath_link https://www.oddsmath.com/football/international/afc-championship-u20-103495/2025-02-22/saudi-arabia-u20-vs-china-u20-4715157/
+
+        EVENT_LINKS
+        ['https://www.oddsmath.com/football/matches/2025-02-21/', 'https://www.oddsmath.com/football/matches/today/', 'https://www.oddsmath.com/football/matches/2025-02-23/', ...]
+
+        BET_DATA
+        {'team_t1': 'SAUDI ARABIA U20', 'team_t2': 'CHINA U20', 'event_time': 'Saturday, Feb 22, 2025, 08:15', 'bets': [{'name': '1XBET', 'odds_1': '3.27', 'odds_X': '3.25', 'odds_2': '2.06'}, {'name': 'Bettogoal', 'odds_1': '3.17', 'odds_X': '3.37', 'odds_2': '2.05'}, {'name': 'Betway', 'odds_1': '3.10', 'odds_X': '3.30', 'odds_2': '2.10'}, {'name': 'FEZbet', 'odds_1': '3.40', 'odds_X': '3.25', 'odds_2': '2.05'}, ...]}
+
+# Database
+Bet data is updating frequently for a match, and whenever the new data is showed, we want to keep its historical data, instead of updating its existing data. Also, it can be helpful when we analyze bet data. A database needs to support time-series data or append-only operation.
+
+For the oddsmath, it supports to get future matches' bet data for today and tomorrow, and one day can have over 800 matches. When a match starts, the system needs to fetch bet data frequently for 90-120 minutes. 
+
+Let assume we have some conditions on how many update data the database needs to store, and those matches start at the end of a date:
+- in 90 minutes, 800 matches keep update bet data every 1 minute.
+
+        1 update/min * 90 min/match * 800 matches = 72,000 updates
+
+- 20% of 800 matches go to extra time (30 minutes), update bet data every 1 minute.
+
+        1 update/min * 30 min/match * 0.2 * 800 matches = 4,800 updates
+
+- For the other times, 800 matches keep update bet data every 15 minute.
+
+        1 update/15min * 
+
+24 hours * 60 min/h = 1440 min
+90 min ()
+
+Assumption for data amount:
+1 update/min * 90 min * 1 match * 800 matches + 1 update/min * 30 min * 1 match * (0.2 * 800 matches) + 1 update/15 min * 10h * 1 match * 800 matches
+
+Let assume half of them start at the same time, so we have 400 matches with low update time, and 40 matches with high update time for 1 day.
+
+Database's requirements:
+- Support time-series data
+- Support append-only operation
+- Low-cost
+- Self-hosted
+- Require less efforts as much as it can for DevOps
+
+# To-do
